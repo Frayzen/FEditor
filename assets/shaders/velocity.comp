@@ -9,9 +9,9 @@ layout(binding = 0) buffer Transforms{
 layout(binding = 1) buffer Velocities{
     vec4 vels[];
 };
-layout(binding = 2) buffer Colors{
-    vec4 colors[];
-};
+//layout(binding = 2) buffer Colors{
+//    vec4 colors[];
+//};
 
 
 uniform vec3 ubound;
@@ -113,7 +113,7 @@ void main()
 
     //colors[id] = vec4(densityToPressure(particuleDensity) / pressureMultiplier * normalize(vec3(1.0f)), 1.0f);
     //colors[id] = vec4(vec3(length(t.xyz - interaction)), 1.0f);
-    colors[id] = mapVelocityToColor(length(vel));
+    //colors[id] = mapVelocityToColor(length(vel));
 
     vel += vec4(0.0f, -1.0f, 0.0f, 1.0f) * particuleDensity * gravity * deltaTime;
     vel += vec4(pressure.xyz, 1.0f) * deltaTime / particuleDensity;

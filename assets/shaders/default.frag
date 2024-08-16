@@ -4,7 +4,6 @@ out vec4 fragColor;
 in vec3 norm;
 in vec3 uv;
 in vec3 wordPos;
-in vec4 color;
 
 uniform vec3 lightPos;
 uniform float shininessStrength;
