@@ -1,15 +1,10 @@
-#include <sys/ioctl.h>
+#include "editor.h"
 #include <stdio.h>
-#include <unistd.h>
 
-int main (int argc, char **argv)
-{
-    (void) argc;
-    (void) argv;
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-    printf ("lines %d\n", w.ws_row);
-    printf ("columns %d\n", w.ws_col);
-    return 0;  // make sure your main returns int
+int main(int argc, char **argv) {
+  (void)argc;
+  (void)argv;
+  setupEditor();
+  printf("%d x %d\n", getEditor()->rows, getEditor()->columns);
+  return 0;
 }
