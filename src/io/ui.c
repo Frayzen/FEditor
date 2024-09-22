@@ -1,6 +1,5 @@
 #include "ui.h"
 #include "inputs.h"
-#include "io/colors.h"
 #include "io/mode.h"
 #include "tools.h"
 #include "view/manager.h"
@@ -25,7 +24,6 @@ void write_mode(void)
 void init(void) {
   main_window = initscr();
   EXIT_ON_ERROR(main_window, "The window could not be loaded");
-  init_colors();
   nodelay(main_window, TRUE);
   getmaxyx(main_window, win_stats.rows,
            win_stats.columns); // MACRO, no need for pointer
@@ -35,8 +33,8 @@ void init(void) {
 
 void update(void) {
   handle_inputs();
-  render_current_view();
   write_mode();
+  render_current_view();
   refresh();
 }
 

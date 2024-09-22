@@ -9,7 +9,7 @@ typedef struct view {
   // A view aim to be a set of buffer arranged on a screen
   // It currently is only a single buffer
   WINDOW* win;
-  int w, h, x, y;
+  int w, h;
   buffer* buffer;
   line* top_line; // The line at the top of the screen
   cursor* cursor;

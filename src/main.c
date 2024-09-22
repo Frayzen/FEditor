@@ -1,3 +1,4 @@
+#include "io/colors.h"
 #include "io/ui.h"
 #include "view/manager.h"
 #include <stdbool.h>
@@ -7,6 +8,7 @@ int main(int argc, char **argv) {
   init();
   (void) argc;
   new_buf(NULL, argv[1]);
+  init_colors();
   while (true)
     update();
   end();
