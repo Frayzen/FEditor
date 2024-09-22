@@ -1,5 +1,6 @@
 *
 !.gitignore
+!IDEAS
 !*.c
 !*.h
 !src
