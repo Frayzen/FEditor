@@ -18,7 +18,7 @@ view *create_view(WINDOW *win, buffer *buf) {
   return cur;
 }
 
-void write_txt(WINDOW* w, char *line, int is_focus) {
+void write_txt(WINDOW *w, char *line, int is_focus) {
   if (is_focus) // FOCUS LINE ON
     wattron(w, A_BOLD);
   wprintw(w, "%s", line);
@@ -26,45 +26,58 @@ void write_txt(WINDOW* w, char *line, int is_focus) {
     wattroff(w, A_BOLD);
 }
 
-void write_number(WINDOW* w, unsigned long val, int is_focus) {
+void write_number(WINDOW *w, unsigned long val, int is_focus) {
+  static unsigned long last = -1;
+  if (last == val)
+    return;
+  last = val;
   if (is_focus) {
     wattron(w, A_BOLD);
     wattron(w, COLOR_PAIR(FOCUS_PAIR)); // FOCUS LINE ON
   }
-  wprintw(w, "%4lu", val + 1);
+  wprintw(w, "%4lu", val);
   if (is_focus) {
     wattroff(w, A_BOLD);
     wattroff(w, COLOR_PAIR(FOCUS_PAIR)); // FOCUS LINE ON
   }
 }
 
-void render_view(view *v) {
-  int size_line_nb = 5;
-
-  int h = 0;
-  line *cur = v->top_line;
-  int remain = cur->lenght;
+int write_line(view *v, line *cur, int h) {
   WINDOW *w = v->win;
-  while (h < v->h && cur) {
-    int is_focus = cur == v->cursor->focus_line;
-    char *begin = cur->content;
-    int len = min(v->w, remain);
+  
+  // Define consts
+  const int size_line_nb = min(5, v->w - 1);
+  const int is_focus = cur == v->cursor->focus_line;
+
+  // Define loop elements
+  int remain = cur->lenght;
+  char *begin = cur->content;
+
+  do {
+    int len = min(v->w - size_line_nb, remain);
     char *end = begin + len;
     remain -= len;
-    char save = *end;
     // PRINT LINE NUMBER
     wmove(w, h, 0);
     write_number(w, cur->pos + 1, is_focus);
     // PRINT LINE TEXT
+    char save = *end; // SAVE THE END CHAR
+    *end = 0;         // NULL TERMINATE
     wmove(w, h, size_line_nb);
     write_txt(w, begin, is_focus);
-    *end = save;
-    if (remain == 0) {
-      // NEXT LINE
-      cur = cur->next;
-      if (cur)
-        remain = cur->lenght;
-    }
+    *end = save; // RESTORE
+    begin = end;
     h++;
+  }
+  while (remain != 0 && h != v->h);
+  return h;
+}
+
+void render_view(view *v) {
+  line *cur = v->top_line;
+  int h = 0;
+  while (h < v->h && cur) {
+    h = write_line(v, cur, h);
+    cur = cur->next;
   }
 }

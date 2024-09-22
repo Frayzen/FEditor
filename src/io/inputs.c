@@ -36,6 +36,13 @@ void normal_input(char in) {
     case 'i':
       set_current_mode(INSERT);
       break;
+    case 'g':
+      while(prev_line())
+        continue;
+    case 'G':
+      while(next_line())
+        continue;
+      break;
   }
 }
 

@@ -34,7 +34,7 @@ buffer *create_new_buffer(char *name) {
   buffer *buf = allocate_buffer();
   buf->name = strdup(name);
   buf->file = NULL;
-  buf->first_line = build_lines("This is a test\nAnd here also");
+  buf->first_line = build_lines("");
   return buf;
 }
 

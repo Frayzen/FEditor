@@ -1,7 +1,6 @@
 #ifndef UI_H
 #define UI_H
 
-#include "view/view.h"
 #include <ncurses.h>
 struct win_stats {
   int columns, rows;
