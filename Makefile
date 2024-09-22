@@ -1,9 +1,10 @@
 CC=gcc
-CFLAGS= -std=c99 -pedantic -Werror -Wall -Wextra -Wvla -I./include -Wno-vla
-LDFLAGS=
+SRC_DIR=src
+CFLAGS= -std=c99 -pedantic -Werror -Wall -Wextra -Wvla -I./${SRC_DIR} -Wno-vla
+LDFLAGS=-lncurses
 OUT=editor
-SRCS = $(shell find $(SRC_DIR) -name '*.c' -a ! -path '*/test/*')
-OBJS = $(SRCS:.c=.o)
+SRCS=$(shell find $(SRC_DIR) -name '*.c' -a ! -path '*/test/*')
+OBJS=$(SRCS:.c=.o)
 
 all: $(OBJS)
 	$(CC) $(LDFLAGS) -o $(OUT) $(OBJS)
