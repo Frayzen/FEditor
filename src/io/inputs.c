@@ -2,14 +2,15 @@
 #include "io/cursor.h"
 #include "io/mode.h"
 #include "mode.h"
+#include "view/manager.h"
+#include "view/view.h"
 #include <ctype.h>
 #include <ncurses.h>
 
 #define KEY_ESCAPE 27
 
 void insert_input(char in) {
-  if (!isprint(in))
-  {
+  if (!isprint(in)) {
     if (in == KEY_ESCAPE)
       set_current_mode(NORMAL);
     return; // cannot print char: TODO error message
@@ -18,31 +19,37 @@ void insert_input(char in) {
 }
 
 void normal_input(char in) {
-  switch (in)
-  {
-    case 'h':
-      next_line();
-      break;
-    case 'j':
-      next_line();
-      break;
-    case 'k':
-      prev_line();
-      break;
-    case 'l':
-      prev_line();
-      break;
-      break;
-    case 'i':
-      set_current_mode(INSERT);
-      break;
-    case 'g':
-      while(prev_line())
+  switch (in) {
+  case 'h':
+    scroll_up();
+    break;
+  case 'j':
+    next_line();
+    break;
+  case 'k':
+    prev_line();
+    break;
+  case 'l':
+    scroll_down();
+    break;
+    break;
+  case 'i':
+    set_current_mode(INSERT);
+    break;
+  case 'g':
+    if (get_current_view()->cursor->focus_line == get_current_view()->top_line)
+      while (prev_line())
         continue;
-    case 'G':
-      while(next_line())
+    else
+      get_current_view()->cursor->focus_line = get_current_view()->top_line;
+    break;
+  case 'G':
+    if (get_current_view()->cursor->focus_line == get_current_view()->bot_line)
+      while (next_line())
         continue;
-      break;
+    else
+      get_current_view()->cursor->focus_line = get_current_view()->bot_line;
+    break;
   }
 }
 

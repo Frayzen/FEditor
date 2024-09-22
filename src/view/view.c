@@ -44,7 +44,7 @@ void write_number(WINDOW *w, unsigned long val, int is_focus) {
 
 int write_line(view *v, line *cur, int h) {
   WINDOW *w = v->win;
-  
+
   // Define consts
   const int size_line_nb = min(5, v->w - 1);
   const int is_focus = cur == v->cursor->focus_line;
@@ -68,8 +68,7 @@ int write_line(view *v, line *cur, int h) {
     *end = save; // RESTORE
     begin = end;
     h++;
-  }
-  while (remain != 0 && h != v->h);
+  } while (remain != 0 && h != v->h);
   return h;
 }
 
@@ -77,7 +76,28 @@ void render_view(view *v) {
   line *cur = v->top_line;
   int h = 0;
   while (h < v->h && cur) {
+    v->bot_line = cur;
     h = write_line(v, cur, h);
     cur = cur->next;
   }
+}
+
+void scroll_down(void) {
+  if (!get_current_view()->top_line->next)
+    return;
+  if (get_current_view()->cursor->focus_line == get_current_view()->top_line)
+    get_current_view()->cursor->focus_line = get_current_view()->cursor->focus_line->next;
+  get_current_view()->top_line = get_current_view()->top_line->next;
+  get_current_view()->bot_line = get_current_view()->bot_line->next;
+  wclear(get_current_view()->win);
+}
+void scroll_up(void)
+{
+  if (!get_current_view()->top_line->prev)
+    return;
+  if (get_current_view()->cursor->focus_line == get_current_view()->bot_line)
+    get_current_view()->cursor->focus_line = get_current_view()->cursor->focus_line->prev;
+  get_current_view()->top_line = get_current_view()->top_line->prev;
+  get_current_view()->bot_line = get_current_view()->bot_line->prev;
+  wclear(get_current_view()->win);
 }

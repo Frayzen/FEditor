@@ -9,15 +9,11 @@
 struct win_stats win_stats = {0};
 static WINDOW *main_window;
 
-WINDOW* get_window(void)
-{
-  return main_window;
-}
+WINDOW *get_window(void) { return main_window; }
 
-void write_mode(void)
-{
-  char* mode_str = get_mode_str();
-  move(win_stats.rows - 1 ,win_stats.columns - strlen(mode_str) - 1);
+void write_mode(void) {
+  char *mode_str = get_mode_str();
+  move(win_stats.rows - 1, win_stats.columns - strlen(mode_str) - 1);
   printw("%s", mode_str);
 }
 
@@ -34,7 +30,8 @@ void init(void) {
 void update(void) {
   handle_inputs();
   write_mode();
-  render_current_view();
+  if (get_current_mode() == NORMAL)
+    render_current_view();
   refresh();
 }
 
@@ -42,4 +39,3 @@ void end(void) {
   // TODO FREE ALL
   endwin();
 }
-

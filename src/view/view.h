@@ -12,11 +12,14 @@ typedef struct view {
   int w, h;
   buffer* buffer;
   line* top_line; // The line at the top of the screen
+  line* bot_line; // The line at the bottom of the screen
   cursor* cursor;
 } view;
 
 
 view* create_view(WINDOW* win, buffer* buf);
 void render_view(view* cur);
+void scroll_down(void);
+void scroll_up(void);
 
 #endif /* !VIEW_H */

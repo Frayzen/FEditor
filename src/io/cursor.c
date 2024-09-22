@@ -1,5 +1,6 @@
 #include "cursor.h"
 #include "view/manager.h"
+#include "view/view.h"
 #include <ncurses.h>
 #include <stdlib.h>
 
@@ -14,6 +15,8 @@ bool prev_line(void) {
     return false;
   cursor *c = get_current_view()->cursor;
   if (c->focus_line->prev != NULL) {
+    if (c->focus_line == get_current_view()->top_line)
+      scroll_up();
     c->focus_line = c->focus_line->prev;
     return true;
   }
@@ -25,6 +28,8 @@ bool next_line(void) {
     return false;
   cursor *c = get_current_view()->cursor;
   if (c->focus_line->next != NULL) {
+    if (c->focus_line == get_current_view()->bot_line)
+      scroll_down();
     c->focus_line = c->focus_line->next;
     return true;
   }
