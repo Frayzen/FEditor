@@ -27,8 +27,11 @@ void render_view(view *v) {
 
     char save = *end;
     move(v->y + h, v->x);
+    if (cur == v->cursor->focus_line)
+      attron(A_BOLD);
     printw("%s", begin);
     *end = save;
+    attroff(A_BOLD);
 
     if (remain == 0) {
       // NEXT LINE

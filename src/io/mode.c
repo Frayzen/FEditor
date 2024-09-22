@@ -14,10 +14,10 @@ void set_current_mode(enum mode mode)
   switch (current_mode)
   {
     case INSERT:
-      set_cursor_visibility(LINE);
+      set_cursor_visibility(BLOCK);
       break;
     default:
-      set_cursor_visibility(BLOCK);
+      set_cursor_visibility(INVISIBLE);
       break;
   }
 }

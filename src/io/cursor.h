@@ -6,20 +6,17 @@
 
 enum cursor_visibility {
   INVISIBLE = 0,
-  LINE = 1,
+  BLINK = 1,
   BLOCK = 2,
 };
 
 typedef struct cursor {
-  int pos_x, pos_y;
-  line* cur_line;
+  line* focus_line;
 } cursor;
 
-void set_pos(int x, int y);
-void add_pos(int x, int y);
-void write_char(char c);
+bool prev_line(void);
+bool next_line(void);
 void set_cursor_visibility(enum cursor_visibility visibility);
-void reset_cursor(void);
 cursor* create_cursor(line* line);
 
 #endif /* !CURSOR_H */

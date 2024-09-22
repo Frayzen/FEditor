@@ -5,7 +5,7 @@
 
 static inline line *create_line(char *from, char *to, int pos) {
   line *l = malloc(sizeof(line));
-  unsigned long size = from - to;
+  unsigned long size = to - from;
   l->content = strndup(from, size);
   l->lenght = size;
   l->pos = pos;

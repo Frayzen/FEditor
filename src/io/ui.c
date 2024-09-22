@@ -1,9 +1,12 @@
 #include "ui.h"
 #include "buffers/buffer.h"
 #include "inputs.h"
-#include "io/cursor.h"
+#include "io/colors.h"
 #include "io/mode.h"
+#include "tools.h"
 #include <ncurses.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 struct win_stats win_stats = {0};
@@ -24,11 +27,13 @@ void write_mode(void)
 
 void init(void) {
   main_window = initscr();
+  EXIT_ON_ERROR(main_window, "The window could not be loaded");
+  init_colors();
   nodelay(main_window, TRUE);
   getmaxyx(main_window, win_stats.rows,
            win_stats.columns); // MACRO, no need for pointer
   noecho();
-  set_current_mode(INSERT);
+  set_current_mode(NORMAL);
   buffer* buf = create_new_buffer("New window");
   current_view = create_view(main_window, buf);
 }
@@ -38,7 +43,6 @@ void update(void) {
   if (current_view)
     render_view(current_view);
   write_mode();
-  reset_cursor();
   refresh();
 }
 

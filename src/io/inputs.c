@@ -14,30 +14,26 @@ void insert_input(char in) {
       set_current_mode(NORMAL);
     return; // cannot print char: TODO error message
   }
-  write_char(in);
-  add_pos(1, 0);
+  // TODO
 }
 
 void normal_input(char in) {
   switch (in)
   {
     case 'h':
-      add_pos(-1, 0);
+      next_line();
       break;
     case 'j':
-      add_pos(0, 1);
+      next_line();
       break;
     case 'k':
-      add_pos(0, -1);
+      prev_line();
       break;
     case 'l':
-      add_pos(1, 0);
+      prev_line();
+      break;
       break;
     case 'i':
-      set_current_mode(INSERT);
-      break;
-    case 'a':
-      add_pos(1, 0);
       set_current_mode(INSERT);
       break;
   }
