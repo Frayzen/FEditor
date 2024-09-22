@@ -1,21 +1,18 @@
 #include "ui.h"
-#include "buffers/buffer.h"
 #include "inputs.h"
 #include "io/colors.h"
 #include "io/mode.h"
 #include "tools.h"
+#include "view/manager.h"
 #include <ncurses.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 struct win_stats win_stats = {0};
 static WINDOW *main_window;
-static view* current_view = NULL;
 
-view* get_current_view(void)
+WINDOW* get_window(void)
 {
-  return current_view;
+  return main_window;
 }
 
 void write_mode(void)
@@ -34,14 +31,11 @@ void init(void) {
            win_stats.columns); // MACRO, no need for pointer
   noecho();
   set_current_mode(NORMAL);
-  buffer* buf = create_new_buffer("New window");
-  current_view = create_view(main_window, buf);
 }
 
 void update(void) {
   handle_inputs();
-  if (current_view)
-    render_view(current_view);
+  render_current_view();
   write_mode();
   refresh();
 }

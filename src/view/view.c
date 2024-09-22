@@ -1,6 +1,7 @@
 #include "view.h"
 #include "buffers/line.h"
 #include "tools.h"
+#include "view/manager.h"
 #include <ncurses.h>
 #include <stdlib.h>
 
@@ -12,6 +13,8 @@ view *create_view(WINDOW *win, buffer *buf) {
   cur->win = win;
   cur->buffer = buf;
   cur->top_line = buf->first_line;
+  if (!get_current_view())
+    set_current_view(cur);
   return cur;
 }
 
