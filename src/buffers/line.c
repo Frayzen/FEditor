@@ -1,6 +1,6 @@
 #include "constants.h"
 
-#include "constants.h"
+#include "buffers/buffer.h"
 #include "line.h"
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +24,7 @@ static int tokenize(char *src) {
   return find - src + 1;
 }
 
-struct line *build_lines(char *content) {
+void build_lines(buffer *buf, char *content) {
   char *from = content;
   int cur_pos = 0;
   int len = tokenize(from);
@@ -39,5 +39,6 @@ struct line *build_lines(char *content) {
   }
   nextln->next = NULL;
   first->prev = NULL;
-  return first;
+  buf->first_line = first;
+  buf->last_line = nextln;
 }

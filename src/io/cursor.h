@@ -18,5 +18,7 @@ bool prev_line(void);
 bool next_line(void);
 void set_cursor_visibility(enum cursor_visibility visibility);
 cursor* create_cursor(line* line);
+void gotoline(unsigned long id); // accept negative values, clamp larger values
+void bound_cursor(void);
 
 #endif /* !CURSOR_H */

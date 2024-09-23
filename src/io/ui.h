@@ -10,7 +10,8 @@ extern struct win_stats win_stats;
 // Ncurses related
 void init(void);
 void end(void);
-void update(void);
+void render(void);
+void update(void); // handle input + render
 WINDOW* get_window(void);
 
 #endif /* !UI_H */

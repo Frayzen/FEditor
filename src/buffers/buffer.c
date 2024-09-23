@@ -34,7 +34,7 @@ buffer *create_new_buffer(char *name) {
   buffer *buf = allocate_buffer();
   buf->name = strdup(name);
   buf->file = NULL;
-  buf->first_line = build_lines("");
+  build_lines(buf, "");
   return buf;
 }
 
@@ -47,11 +47,11 @@ buffer *create_buffer_from_file(char *path) {
   fseek(file, 0, SEEK_END); // Get the size
   long len = ftell(file);
   EXIT_ON_ERRNO(len != -1);
-  char *content = malloc(len+1); // Allocate buffer
-  rewind(file); // Reset position
+  char *content = malloc(len + 1); // Allocate buffer
+  rewind(file);                    // Reset position
   fread(content, len, 1, file);
-  content[len] = 0; // Null terminate
-  buf->first_line = build_lines(content); //
+  content[len] = 0;          // Null terminate
+  build_lines(buf, content); //
   free(content);
 
   buf->file = file;

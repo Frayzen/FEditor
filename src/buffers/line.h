@@ -1,6 +1,8 @@
 #ifndef LINE_H
 #define LINE_H
 
+#include "frwd.h"
+
 typedef struct line {
   char *content;
   unsigned long lenght;
@@ -9,7 +11,6 @@ typedef struct line {
   struct line *prev; // NULL IF FIRST
 } line;
 
-
-struct line *build_lines(char *content);
+void build_lines(struct buffer* buf, char *content);
 
 #endif /* !LINE_H */

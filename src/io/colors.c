@@ -1,7 +1,6 @@
 #include "colors.h"
 #include "tools.h"
 #include <ncurses.h>
-
 #define DEFINE_LIKE(Dest, Src) \
   color_content(Src, &r, &g, &b);\
   init_color(Dest, r, g, b);
@@ -23,4 +22,7 @@ void init_colors(void)
   init_pair(BASE_PAIR, COLOR_WHITE, COLOR_BLACK);
   init_pair(FOCUS_PAIR, COLOR_WHITE, COLOR_RED);
   init_pair(BKG_PAIR, COLOR_CYAN, COLOR_WHITE);
+
+  bkgd(PAIR_NUMBER(COLOR_BLACK));
+  refresh();
 }

@@ -2,7 +2,7 @@
 #include "io/cursor.h"
 #include <ncurses.h>
 
-static enum mode current_mode = INSERT;
+static enum mode current_mode = NORMAL;
 enum mode get_current_mode(void)
 {
   return current_mode;
@@ -10,6 +10,8 @@ enum mode get_current_mode(void)
 
 void set_current_mode(enum mode mode)
 {
+  if (current_mode != mode)
+    clear();
   current_mode = mode;
   switch (current_mode)
   {
@@ -32,6 +34,8 @@ char* get_mode_str(void)
       return "NORMAL";
     case VISUAL:
       return "VISUAL";
+    case REQNB:
+      return "REQNB";
     default:
       return "NO MODE";
   }

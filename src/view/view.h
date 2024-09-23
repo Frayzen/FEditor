@@ -21,5 +21,7 @@ view* create_view(WINDOW* win, buffer* buf);
 void render_view(view* cur);
 void scroll_down(void);
 void scroll_up(void);
+void scroll_far(line* to);
+bool is_displayed(unsigned long line);
 
 #endif /* !VIEW_H */

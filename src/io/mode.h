@@ -4,7 +4,10 @@
 enum mode {
   VISUAL,
   NORMAL,
-  INSERT
+  INSERT,
+
+  REQMSK = 32,
+  REQNB
 };
 
 enum mode get_current_mode(void);

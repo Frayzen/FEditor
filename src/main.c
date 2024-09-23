@@ -5,12 +5,15 @@
 #include <stdio.h>
 
 int main(int argc, char **argv) {
-  init();
   (void) argc;
+  init();
   new_buf(NULL, argv[1]);
   init_colors();
+  render();
   while (true)
+  {
     update();
+  }
   end();
   return 0;
 }

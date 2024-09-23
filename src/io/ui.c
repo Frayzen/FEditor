@@ -20,19 +20,23 @@ void write_mode(void) {
 void init(void) {
   main_window = initscr();
   EXIT_ON_ERROR(main_window, "The window could not be loaded");
-  nodelay(main_window, TRUE);
   getmaxyx(main_window, win_stats.rows,
            win_stats.columns); // MACRO, no need for pointer
   noecho();
   set_current_mode(NORMAL);
 }
 
+void render(void) {
+  write_mode();
+  if (get_current_mode() & REQMSK)
+    show_stack();
+  render_current_view();
+  refresh();
+}
+
 void update(void) {
   handle_inputs();
-  write_mode();
-  if (get_current_mode() == NORMAL)
-    render_current_view();
-  refresh();
+  render();
 }
 
 void end(void) {

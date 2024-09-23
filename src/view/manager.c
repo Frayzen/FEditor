@@ -3,7 +3,8 @@
 #include "io/ui.h"
 #include "view/view.h"
 #include <ncurses.h>
-#include <stdio.h>
+
+static view *current_view;
 
 buffer *new_buf(view *v, char *path) {
   buffer *buf;
@@ -18,14 +19,13 @@ buffer *new_buf(view *v, char *path) {
   return buf;
 }
 
-static view *current_view = NULL;
-
 void set_current_view(view *v) { current_view = v; }
 view *get_current_view(void) { return current_view; }
 
 void render_current_view(void) {
   if (current_view) {
     wbkgd(current_view->win, COLOR_PAIR(BASE_PAIR));
+    refresh();
     render_view(current_view);
     wrefresh(current_view->win);
   }
