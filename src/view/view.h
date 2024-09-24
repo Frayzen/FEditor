@@ -16,6 +16,7 @@ typedef struct view {
   line* top_line; // The line at the top of the screen
   line* bot_line; // The line at the bottom of the screen
   cursor* cursor;
+  char* searched;
 } view;
 
 

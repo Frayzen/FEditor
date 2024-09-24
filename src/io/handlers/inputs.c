@@ -3,7 +3,8 @@
 #include "io/ui.h"
 #include <ncurses.h>
 
-static char input_stack[MAX_STACK_SIZE] = {0};
+#define MAX_STACK_SIZE 20
+static char input_stack[MAX_STACK_SIZE + 1] = {0};
 static int stack_size = 0;
 
 static handler handlers[] = {
@@ -17,7 +18,7 @@ void handle_inputs(void) {
   int in = getch();
   if (in == ERR)
     return;
-  if (in == '\n') {
+  if (in == KEY_ESCAPE) {
     exit_mode();
     return;
   }
@@ -37,6 +38,7 @@ void add_stack(char c) {
   if (stack_size == MAX_STACK_SIZE)
     return;
   input_stack[stack_size++] = c;
+  input_stack[stack_size] = 0;
 }
 
 void show_stack(void) {

@@ -2,7 +2,6 @@
 #define INPUTS_H
 
 #define KEY_ESCAPE 27
-#define MAX_STACK_SIZE 20
 
 void handle_inputs(void);
 

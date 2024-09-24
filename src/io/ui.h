@@ -7,6 +7,9 @@ struct win_stats {
 };
 extern struct win_stats win_stats;
 
+#define WIN_MH (win_stats.rows - 1)
+#define WIN_MW (win_stats.columns - 1)
+
 // Ncurses related
 void init(void);
 void end(void);

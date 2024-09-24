@@ -28,11 +28,11 @@ void reqnb_handle(int in) {
 }
 
 void reqstr_handle(int in) {
-  if (!isprint(in))
-    return;
-  if (in == ' ') {
+  if (in == '\n') {
     set_current_mode(NORMAL);
     return;
   }
+  if (!isprint(in))
+    return;
   add_stack(in);
 }

@@ -28,7 +28,7 @@ void normal_handle(int in) {
     set_mode_with_cb(REQNB, goto_cb);
     break;
   case '/':
-    set_current_mode(REQSTR);
+    set_mode_with_cb(REQSTR, search_cb);
     break;
   case 'g':
     if (get_current_cursor()->focus_line == get_current_view()->top_line)

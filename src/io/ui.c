@@ -30,6 +30,10 @@ void render(void) {
   write_mode();
   if (get_current_mode() & REQMSK)
     show_stack();
+  if (get_current_view()->searched) {
+    move(WIN_MH, WIN_MW / 2 - strlen(get_current_view()->searched));
+    printw("%s", get_current_view()->searched);
+  }
   render_current_view();
   refresh();
 }
