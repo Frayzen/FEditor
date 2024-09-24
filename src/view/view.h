@@ -5,6 +5,8 @@
 #include "io/cursor.h"
 #include <ncurses.h>
 
+#define HALF_POS(View) ((View)->top_line->pos + (View)->h / 2)
+
 typedef struct view {
   // A view aim to be a set of buffer arranged on a screen
   // It currently is only a single buffer
@@ -21,7 +23,7 @@ view* create_view(WINDOW* win, buffer* buf);
 void render_view(view* cur);
 void scroll_down(void);
 void scroll_up(void);
-void scroll_far(line* to);
+void scroll_to(line* to);
 bool is_displayed(unsigned long line);
 
 #endif /* !VIEW_H */

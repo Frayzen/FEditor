@@ -87,14 +87,14 @@ void render_view(view *v) {
   }
 }
 
-void scroll_down(void) { scroll_far(get_current_view()->top_line->next); }
-void scroll_up(void) { scroll_far(get_current_view()->top_line->prev); }
+void scroll_down(void) { scroll_to(get_current_view()->top_line->next); }
+void scroll_up(void) { scroll_to(get_current_view()->top_line->prev); }
 
-void scroll_far(line *top) {
+void scroll_to(line *top) {
   if (!top)
     return;
-  clear();
   view *v = get_current_view();
+  wclear(v->win);
   v->top_line = top;
   render_view(v);
   bound_cursor();

@@ -27,4 +27,6 @@ static inline int clamp(int x, int l, int h) {
   move(win_stats.rows - 1, 12);                                                \
   printw(Str, Val);
 
+typedef void (*callback)(void);
+
 #endif /* !TOOLS_H */

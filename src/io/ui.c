@@ -1,5 +1,5 @@
 #include "ui.h"
-#include "inputs.h"
+#include "io/handlers/inputs.h"
 #include "io/mode.h"
 #include "tools.h"
 #include "view/manager.h"
