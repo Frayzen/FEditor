@@ -14,14 +14,12 @@ void init_colors(void)
   if (has_colors() && can_change_color())
   {
     init_color(COLOR_BLACK, 0, 0, 0);
-  }
-  else {
-    init_color(COLOR_BLACK, 100, 0, 0);
+    init_color(COLOR_GRAY, 800, 800, 800);
   }
 
   init_pair(BASE_PAIR, COLOR_WHITE, COLOR_BLACK);
   init_pair(FOCUS_PAIR, COLOR_WHITE, COLOR_RED);
-  init_pair(BKG_PAIR, COLOR_CYAN, COLOR_WHITE);
+  init_pair(INFO_PAIR, COLOR_GRAY, COLOR_BLACK);
 
   bkgd(PAIR_NUMBER(COLOR_BLACK));
   refresh();

@@ -19,14 +19,6 @@ view *create_view(WINDOW *win, buffer *buf) {
   return cur;
 }
 
-void write_txt(WINDOW *w, char *line, int is_focus) {
-  if (is_focus) // FOCUS LINE ON
-    wattron(w, A_BOLD);
-  wprintw(w, "%s", line);
-  if (is_focus) // FOCUS LINE OFF
-    wattroff(w, A_BOLD);
-}
-
 // Call it with w set to NULL to set the last val
 void write_number(WINDOW *w, unsigned long val, bool is_focus) {
   static unsigned long last = -1;
@@ -46,6 +38,24 @@ void write_number(WINDOW *w, unsigned long val, bool is_focus) {
   }
 }
 
+char *write_info_txt(WINDOW *w, int len) {
+  static char infos[] = "asdfghjkl;ASDFGHJKL:";
+  static int last_len = sizeof(infos) - 1;
+  static char last_char = 0;
+  len = clamp(len, 0, sizeof(infos) - 1);
+  infos[last_len] = last_char;
+  last_char = infos[len];
+  last_len = len;
+  infos[len] = 0;
+  // Write actual text
+  wattron(w, COLOR_PAIR(INFO_PAIR));
+  wattron(w, A_BOLD);
+  wprintw(w, "%s", infos);
+  wattroff(w, A_BOLD);
+  wattroff(w, COLOR_PAIR(INFO_PAIR));
+  return infos;
+}
+
 int write_line(view *v, line *cur, int h) {
   write_number(NULL, -1, 0); // RESET
   WINDOW *w = v->win;
@@ -53,10 +63,15 @@ int write_line(view *v, line *cur, int h) {
   // Define consts
   const int size_line_nb = min(5, v->w - 1);
   const int is_focus = cur == v->cursor->focus_line;
-
   // Define loop elements
   int remain = cur->lenght;
   char *begin = cur->content;
+  int len = min(v->w - size_line_nb, remain);
+  if (is_focus) {
+    h++;
+    wmove(w, h++, size_line_nb);
+    write_info_txt(w, len);
+  }
   do {
     int len = min(v->w - size_line_nb, remain);
     char *end = begin + len;
@@ -68,15 +83,21 @@ int write_line(view *v, line *cur, int h) {
     char save = *end; // SAVE THE END CHAR
     *end = 0;         // NULL TERMINATE
     wmove(w, h, size_line_nb);
-    write_txt(w, begin, is_focus);
+    wprintw(w, "%s", begin);
     *end = save; // RESTORE
     begin = end;
     h++;
-  } while (remain != 0 && h != v->h);
+  } while (remain != 0 && h != v->h - is_focus /* for bot infos */);
+  if (is_focus) {
+    wmove(w, h++, size_line_nb);
+    write_info_txt(w, len);
+    h++;
+  }
   return h;
 }
 
 void render_view(view *v) {
+  wclear(v->win);
   line *cur = v->top_line;
   v->bot_line = cur;
   int h = 0;
